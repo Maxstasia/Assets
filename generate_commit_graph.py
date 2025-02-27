@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/02/27 15:44:43 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/02/27 15:49:01 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ import os
 import subprocess
 import pandas as pd
 import plotly.express as px
+import datetime as dt
 
 # 1️⃣ Récupérer l'historique des commits sur 1 an
 def get_commit_history():
@@ -29,26 +30,25 @@ def get_commit_history():
 commits = get_commit_history()
 df = pd.DataFrame(commits, columns=["hash", "date"])
 df["date"] = pd.to_datetime(df["date"])
-df["week"] = df["date"].dt.isocalendar().week
-df["year"] = df["date"].dt.isocalendar().year
-df["day_of_week"] = df["date"].dt.weekday
+df["week"] = df["date"].dt.isocalendar().week  # Numéro de la semaine dans l'année
+df["day_of_week"] = df["date"].dt.weekday       # Jour de la semaine (0=Lundi, 6=Dimanche)
+df["count"] = df.groupby(["week", "day_of_week"])['date'].transform('count')
+df = df.drop_duplicates(subset=["week", "day_of_week"])  # Éviter les doublons
 
-# 3️⃣ Compter les commits par jour
-df_grouped = df.groupby(["year", "week", "day_of_week"]).size().reset_index(name="count")
-
-# 4️⃣ Générer un graphique 3D interactif
+# 3️⃣ Générer un graphique interactif en 3D
 fig = px.scatter_3d(
-    df_grouped,
-    x="week",
-    y="day_of_week",
-    z="count",
+    df,
+    x="week",  # Semaine de l'année
+    y="day_of_week",  # Jour de la semaine
+    z="count",  # Nombre de commits
     color="count",
     size="count",
-    title="Historique des Commits (Grille 7x52)",
-    labels={"week": "Semaine", "day_of_week": "Jour de la semaine", "count": "Nombre de commits"},
+    hover_name=df["date"].dt.strftime("%Y-%m-%d"),
+    labels={"x": "Semaine", "y": "Jour de la semaine", "z": "Commits"},
+    title="Historique des Commits sur 1 an (3D)"
 )
 
-# 5️⃣ Sauvegarde des fichiers
+# 4️⃣ Sauvegarde des fichiers
 fig.write_image("commit_graph.png")
 fig.write_html("commit_graph.html")
 
