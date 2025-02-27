@@ -6,11 +6,52 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/02/26 18:49:29 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/02/27 15:27:19 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-import numpy as np
+import os
+import subprocess
+import pandas as pd
+import plotly.express as px
+
+# 1️⃣ Récupérer l'historique des commits
+def get_commit_history():
+    result = subprocess.run(
+        ["git", "log", "--pretty=format:%H %cd", "--date=format:%Y-%m-%d"],
+        capture_output=True,
+        text=True,
+    )
+    commits = [line.split() for line in result.stdout.split("\n") if line]
+    return [(commit[0], commit[1]) for commit in commits]
+
+# 2️⃣ Transformer les données en DataFrame
+commits = get_commit_history()
+df = pd.DataFrame(commits, columns=["hash", "date"])
+df["date"] = pd.to_datetime(df["date"])
+df["count"] = df.groupby("date")["date"].transform("count")
+df = df.drop_duplicates(subset=["date"])
+
+# 3️⃣ Générer un graphique interactif
+fig = px.scatter_3d(
+    df,
+    x=df["date"].dt.day,
+    y=df["date"].dt.month,
+    z=df["count"],
+    color=df["count"],
+    size=df["count"],
+    hover_name=df["date"].dt.strftime("%Y-%m-%d"),
+    labels={"x": "Jour", "y": "Mois", "z": "Nombre de commits"},
+    title="Historique des Commits (3D)",
+)
+
+# 4️⃣ Sauvegarde des fichiers
+fig.write_image("commit_graph.png")
+fig.write_html("commit_graph.html")
+
+print("✅ Graphique généré : commit_graph.png et commit_graph.html")
+
+""" import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import datetime
@@ -61,37 +102,4 @@ def plot_wireframe(X, Y, Z, filename="commit_graph.png"):
 if __name__ == "__main__":
     commit_count = get_commit_counts()
     X, Y, Z = generate_wireframe_grid(size=30, commit_multiplier=commit_count)
-    plot_wireframe(X, Y, Z)
-
-
-""" import matplotlib.pyplot as plt
-import numpy as np
-import git
-from mpl_toolkits.mplot3d import Axes3D
-from datetime import datetime
-
-# Récupérer l'historique des commits
-repo = git.Repo(".")
-commits = list(repo.iter_commits())
-
-# Convertir les dates des commits en jours
-dates = [datetime.fromtimestamp(commit.committed_date) for commit in commits]
-days = [(date - min(dates)).days for date in dates]
-
-# Générer des coordonnées en 3D
-x = np.array(days)
-y = np.linspace(0, len(dates), len(dates))
-z = np.random.rand(len(dates)) * 10  # Altitude aléatoire
-
-# Création du graphique en 3D
-fig = plt.figure(figsize=(10, 6))
-ax = fig.add_subplot(111, projection='3d')
-ax.plot_wireframe(x[:, np.newaxis], y[:, np.newaxis], z[:, np.newaxis], color='blue')
-
-ax.set_xlabel("Jours depuis le premier commit")
-ax.set_ylabel("Nombre de commits")
-ax.set_zlabel("Random Height")
-
-plt.title("Visualisation 3D des commits GitHub")
-plt.savefig("commit_graph.png")
- """
+    plot_wireframe(X, Y, Z) """
