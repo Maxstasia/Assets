@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/02/27 15:27:19 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/02/27 15:41:00 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@ import subprocess
 import pandas as pd
 import plotly.express as px
 
-# 1️⃣ Récupérer l'historique des commits
+# 1️⃣ Récupérer l'historique des commits sur 1 an
 def get_commit_history():
     result = subprocess.run(
-        ["git", "log", "--pretty=format:%H %cd", "--date=format:%Y-%m-%d"],
+        ["git", "log", "--since=1.year", "--pretty=format:%H %cd", "--date=format:%Y-%m-%d"],
         capture_output=True,
         text=True,
     )
@@ -29,23 +29,27 @@ def get_commit_history():
 commits = get_commit_history()
 df = pd.DataFrame(commits, columns=["hash", "date"])
 df["date"] = pd.to_datetime(df["date"])
-df["count"] = df.groupby("date")["date"].transform("count")
-df = df.drop_duplicates(subset=["date"])
+df["week"] = df["date"].dt.isocalendar().week
+# Ajustement pour les semaines dépassant 52
+df["week"] = df["week"] % 52
+df["day_of_week"] = df["date"].dt.weekday
 
-# 3️⃣ Générer un graphique interactif
-fig = px.scatter_3d(
+# 3️⃣ Compter les commits par jour
+df["count"] = df.groupby(["week", "day_of_week"])['date'].transform("count")
+df = df.drop_duplicates(subset=["week", "day_of_week"])
+
+# 4️⃣ Générer un graphique 3D interactif
+fig = px.line_3d(
     df,
-    x=df["date"].dt.day,
-    y=df["date"].dt.month,
-    z=df["count"],
-    color=df["count"],
-    size=df["count"],
-    hover_name=df["date"].dt.strftime("%Y-%m-%d"),
-    labels={"x": "Jour", "y": "Mois", "z": "Nombre de commits"},
-    title="Historique des Commits (3D)",
+    x="week",
+    y="day_of_week",
+    z="count",
+    markers=True,
+    title="Historique des Commits (Grille 7x52)",
+    labels={"week": "Semaine", "day_of_week": "Jour de la semaine", "count": "Nombre de commits"},
 )
 
-# 4️⃣ Sauvegarde des fichiers
+# 5️⃣ Sauvegarde des fichiers
 fig.write_image("commit_graph.png")
 fig.write_html("commit_graph.html")
 
