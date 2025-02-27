@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/02/27 15:41:00 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/02/27 15:44:43 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,21 +30,20 @@ commits = get_commit_history()
 df = pd.DataFrame(commits, columns=["hash", "date"])
 df["date"] = pd.to_datetime(df["date"])
 df["week"] = df["date"].dt.isocalendar().week
-# Ajustement pour les semaines dépassant 52
-df["week"] = df["week"] % 52
+df["year"] = df["date"].dt.isocalendar().year
 df["day_of_week"] = df["date"].dt.weekday
 
 # 3️⃣ Compter les commits par jour
-df["count"] = df.groupby(["week", "day_of_week"])['date'].transform("count")
-df = df.drop_duplicates(subset=["week", "day_of_week"])
+df_grouped = df.groupby(["year", "week", "day_of_week"]).size().reset_index(name="count")
 
 # 4️⃣ Générer un graphique 3D interactif
-fig = px.line_3d(
-    df,
+fig = px.scatter_3d(
+    df_grouped,
     x="week",
     y="day_of_week",
     z="count",
-    markers=True,
+    color="count",
+    size="count",
     title="Historique des Commits (Grille 7x52)",
     labels={"week": "Semaine", "day_of_week": "Jour de la semaine", "count": "Nombre de commits"},
 )
