@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 13:06:43 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 13:47:37 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 16:46:11 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,15 @@ size = 300  # Taille de l'image
 frames = 60  # Nombre d'images
 cube_size = 80  # Taille du cube
 output_dir = "../../Images/Cube"
-os.makedirs(output_dir, exist_ok=True)  # Création du dossier si nécessaire
+# Vérifie si le dossier existe
+if not os.path.exists(output_dir):
+    print(f"📁 Création du dossier de sortie : {output_dir}")
+    os.makedirs(output_dir, exist_ok=True)
+
+# Vérifie les permissions
+if not os.access(output_dir, os.W_OK):
+    raise PermissionError(f"❌ Erreur : Pas de permission d'écriture dans {output_dir}")
+
 gif_name = os.path.join(output_dir, "cube_rotation.gif")
 
 def rotate_3d(points, angle_x, angle_y, angle_z):
@@ -83,6 +91,9 @@ for i in range(frames):
     images.append(img)
 
 # Sauvegarde en GIF
-images[0].save(gif_name, save_all=True, append_images=images[1:], duration=50, loop=0)
+try:
+    images[0].save(gif_name, save_all=True, append_images=images[1:], duration=50, loop=0)
+except Exception as e:
+    print(f"❌ Erreur lors de la création du fichier : {e}")
 
 print(f"✅ GIF généré ici : {gif_name}")

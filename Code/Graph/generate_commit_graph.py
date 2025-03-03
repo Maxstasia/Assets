@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 16:34:14 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 16:45:30 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,13 +63,27 @@ fig = px.scatter_3d(
 
 # 4️⃣ Vérification et création du dossier
 output_dir = "../../Images/Graph/"
-os.makedirs(output_dir, exist_ok=True)  # Crée le dossier si inexistant
+# Vérifie si le dossier existe
+if not os.path.exists(output_dir):
+    print(f"📁 Création du dossier de sortie : {output_dir}")
+    os.makedirs(output_dir, exist_ok=True)
+
+# Vérifie les permissions
+if not os.access(output_dir, os.W_OK):
+    raise PermissionError(f"❌ Erreur : Pas de permission d'écriture dans {output_dir}")
 
 print(df_count.tail(15))  # Affiche les 10 dernières lignes du DataFrame
 
 # 5️⃣ Sauvegarde des fichiers
-fig.write_image(os.path.join(output_dir, "commit_graph.png"))
-fig.write_html(os.path.join(output_dir, "commit_graph.html"))
+try:
+    fig.write_image(os.path.join(output_dir, "commit_graph.png"))
+except Exception as e:
+    print(f"❌ Erreur lors de la création du fichier : {e}")
+
+try:
+    fig.write_html(os.path.join(output_dir, "commit_graph.html"))
+except Exception as e:
+    print(f"❌ Erreur lors de la création du fichier : {e}")
 
 print("✅ Graphique généré : commit_graph.png et commit_graph.html")
 

@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 16:37:56 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 16:39:15 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12", 3.13"]
+        python-version: [3.9, 3.10, 3.11, 3.12, 3.13]
 
     steps:
       - name: 🛠️ Cloner le dépôt des assets
