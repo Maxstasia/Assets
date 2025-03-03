@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 13:36:00 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 14:13:47 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ import subprocess
 import pandas as pd
 import plotly.express as px
 import datetime as dt
+import os  # Ajout pour la gestion des dossiers
 
 # 1️⃣ Récupérer l'historique des commits sur 1 an
 def get_commit_history():
@@ -60,8 +61,12 @@ fig = px.scatter_3d(
     title="Historique des Commits sur 1 an (3D)"
 )
 
-# 4️⃣ Sauvegarde des fichiers
-fig.write_image("../../Images/Graph/commit_graph.png")
-fig.write_html("../../Images/Graph/commit_graph.html")
+# 4️⃣ Vérification et création du dossier
+output_dir = "../../Images/Graph/"
+os.makedirs(output_dir, exist_ok=True)  # Crée le dossier si inexistant
+
+# 5️⃣ Sauvegarde des fichiers
+fig.write_image(os.path.join(output_dir, "commit_graph.png"))
+fig.write_html(os.path.join(output_dir, "commit_graph.html"))
 
 print("✅ Graphique généré : commit_graph.png et commit_graph.html")
