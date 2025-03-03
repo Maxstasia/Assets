@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 14:13:47 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 14:27:33 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,6 +64,8 @@ fig = px.scatter_3d(
 # 4️⃣ Vérification et création du dossier
 output_dir = "../../Images/Graph/"
 os.makedirs(output_dir, exist_ok=True)  # Crée le dossier si inexistant
+
+print(df_count.tail(10))  # Affiche les 10 dernières lignes du DataFrame
 
 # 5️⃣ Sauvegarde des fichiers
 fig.write_image(os.path.join(output_dir, "commit_graph.png"))

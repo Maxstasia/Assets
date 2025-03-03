@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 13:54:33 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 14:29:07 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,9 @@ jobs:
 
       - name: 🎨 Générer le graphique 3D
         run: python3 Code/Graph/generate_commit_graph.py
+
+      - name: 🚀 Vérifier le statut Git avant commit
+        run: git status
 
       - name: 🚀 Commit et push de l'image
         env:
