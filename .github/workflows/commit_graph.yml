@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 13:35:09 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 13:42:38 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ jobs:
         # pip install gitpython requests numpy matplotlib
 
       - name: 🎨 Générer le graphique 3D
-        run: python3 generate_commit_graph.py
+        run: python3 Code/Graph/generate_commit_graph.py
 
       - name: 🚀 Commit et push de l'image
         env:

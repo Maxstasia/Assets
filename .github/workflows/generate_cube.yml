@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/03 13:21:51 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 13:34:42 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 13:42:27 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ jobs:
           pip install pillow numpy
 
       - name: 🎨 Générer le cube en rotation
-        run: python generate_cube.py  # Assurez-vous que le script a bien ce nom
+        run: python Code/Rotation_Cube/generate_cube.py  # Assurez-vous que le script a bien ce nom
 
       - name: 🚀 Commit et push de l’image
         env:
