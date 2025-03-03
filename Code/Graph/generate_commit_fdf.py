@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/02/27 16:20:28 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 13:36:42 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ def generate_wireframe_grid(size=10, commit_multiplier=1):
     Z = np.sin(X) * np.cos(Y) * commit_multiplier  # Variation en fonction du nombre de commits
     return X, Y, Z
 
-def plot_wireframe(X, Y, Z, filename="commit_graph.png"):
+def plot_wireframe(X, Y, Z, filename="../../Images/Graph/commit_graph.png"):
     fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111, projection='3d')
 

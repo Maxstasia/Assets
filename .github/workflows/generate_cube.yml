@@ -1,0 +1,59 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    generate_cube.yml                                  :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/03/03 13:21:51 by mstasiak          #+#    #+#              #
+#    Updated: 2025/03/03 13:34:42 by mstasiak         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+name: Generate Cube Image
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - name: 🛠️ Cloner le dépôt des assets
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: 📦 Installer les dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install pillow numpy
+
+      - name: 🎨 Générer le cube en rotation
+        run: python generate_cube.py  # Assurez-vous que le script a bien ce nom
+
+      - name: 🚀 Commit et push de l’image
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git config --global user.email "mstasiak@student.42.fr"
+          git config --global user.name "Maxstasia"
+          git add Images/Cube/cube_image.gif
+          git commit -m "Mise à jour automatique de l’image du cube"
+          git push "https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}.git" main

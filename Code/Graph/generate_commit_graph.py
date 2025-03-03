@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/02/27 17:05:01 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 13:36:00 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ fig = px.scatter_3d(
 )
 
 # 4️⃣ Sauvegarde des fichiers
-fig.write_image("commit_graph.png")
-fig.write_html("commit_graph.html")
+fig.write_image("../../Images/Graph/commit_graph.png")
+fig.write_html("../../Images/Graph/commit_graph.html")
 
 print("✅ Graphique généré : commit_graph.png et commit_graph.html")

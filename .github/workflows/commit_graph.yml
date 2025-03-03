@@ -1,0 +1,61 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    commit_graph.yml                                   :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
+#    Updated: 2025/03/03 13:35:09 by mstasiak         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+name: Update GitHub Commit Graph
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - name: 🛠️ Cloner le dépôt des assets
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: 📦 Installer les dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install plotly pandas
+          pip install -U kaleido
+        # pip install gitpython requests numpy matplotlib
+
+      - name: 🎨 Générer le graphique 3D
+        run: python3 generate_commit_graph.py
+
+      - name: 🚀 Commit et push de l'image
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
+        run: |
+          git config --global user.email "mstasiak@student.42.fr"
+          git config --global user.name "Maxstasia"
+          git add -f Images/Graph/commit_graph.png Images/Graph/commit_graph.html
+          git commit -m "Mise à jour automatique du graphique des commits"
+          git push "https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}.git" main
