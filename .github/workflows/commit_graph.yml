@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 15:31:50 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 15:35:18 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +43,7 @@ jobs:
       - name: 📦 Installer les dépendances
         run: |
           python -m pip install --upgrade pip
-          pip install requests pandas plotly
-        # pip install -U kaleido
+          pip install -U kaleido requests pandas plotly
         # pip install gitpython requests numpy matplotlib
 
       - name: 🎨 Générer le graphique 3D
