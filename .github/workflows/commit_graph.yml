@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 14:44:58 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/03 15:31:50 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,8 @@ jobs:
         # pip install gitpython requests numpy matplotlib
 
       - name: 🎨 Générer le graphique 3D
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: python3 Code/Graph/generate_commit_graph.py
 
       - name: 🚀 Vérifier le statut Git avant commit
