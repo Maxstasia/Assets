@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/04 17:47:52 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/04 18:00:56 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,14 +98,16 @@ fig.update_layout(
 
 # 📌 Enregistrement des fichiers
 try:
-    output_dir1 = "../../Images/Graph/"
+    output_dir1 = "./Images/Graph/"
+    print("✅ Dossier 1 :", output_dir1)
     os.makedirs(output_dir1, exist_ok=True)
     fig.write_image(os.path.join(output_dir1, "commit_graph.png"))
 except Exception as e:
     print("Erreur :", e)
 
 try:
-    output_dir2 = "../../"
+    output_dir2 = "./"
+    print("✅ Dossier 2 :", output_dir2)
     os.makedirs(output_dir2, exist_ok=True)
     fig.write_html(os.path.join(output_dir2, "index.html"))
 except Exception as e:
