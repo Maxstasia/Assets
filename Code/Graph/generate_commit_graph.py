@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:07 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/04 17:41:09 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/04 17:47:52 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,12 +97,18 @@ fig.update_layout(
 )
 
 # 📌 Enregistrement des fichiers
-output_dir1 = "../../Images/Graph/"
-os.makedirs(output_dir1, exist_ok=True)
-fig.write_image(os.path.join(output_dir1, "commit_graph.png"))
+try:
+    output_dir1 = "../../Images/Graph/"
+    os.makedirs(output_dir1, exist_ok=True)
+    fig.write_image(os.path.join(output_dir1, "commit_graph.png"))
+except Exception as e:
+    print("Erreur :", e)
 
-output_dir2 = "../../"
-os.makedirs(output_dir2, exist_ok=True)
-fig.write_html(os.path.join(output_dir2, "index.html"))
+try:
+    output_dir2 = "../../"
+    os.makedirs(output_dir2, exist_ok=True)
+    fig.write_html(os.path.join(output_dir2, "index.html"))
+except Exception as e:
+    print("Erreur :", e)
 
 print("✅ Graphique amélioré généré : commit_graph.png et index.html")
