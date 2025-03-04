@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/04 16:38:14 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/04 16:45:27 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ on:
     branches: [ "main" ]
   schedule:
     - cron: '0 0 * * *'
+  permissions:
+    contents: write
   workflow_dispatch:
 
 jobs:
