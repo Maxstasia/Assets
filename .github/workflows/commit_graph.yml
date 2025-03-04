@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/03 16:51:12 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/04 15:52:45 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,6 @@ jobs:
         run: |
           git config --global user.email "mstasiak@student.42.fr"
           git config --global user.name "Maxstasia"
-          git add -f Images/Graph/commit_graph.png Images/Graph/commit_graph.html
+          git add -f Images/Graph/commit_graph.png index.html
           git commit -m "Mise à jour automatique du graphique des commits"
           git push "https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}.git" main
