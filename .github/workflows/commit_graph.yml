@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/04 17:26:09 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/04 17:30:39 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,9 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
+
+      - name: Supression des fichier avant utilisation
+        run: rm -rf index.html Images/Graph/commit_graph.png
 
       - name: 📦 Installer les dépendances
         run: |
