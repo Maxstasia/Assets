@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 12:32:00 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/04 16:47:17 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/04 16:50:59 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      actions: write              # Permet de modifier les workflows et de déclencher d'autres actions
+      checks: write               # Permet de gérer les checks (CI/CD) du dépôt
+      contents: write             # Permet de lire, modifier et pousser des fichiers dans le dépôt
+      deployments: write          # Permet de gérer les déploiements
+      issues: write               # Permet de créer et modifier des issues
+      packages: write             # Permet de publier et gérer des packages GitHub
+      pull-requests: write        # Permet de créer et modifier des pull requests
+      repository-projects: write  # Permet de gérer les projets du dépôt
+      security-events: write      # Permet d'accéder et modifier les alertes de sécurité
+      statuses: write             # Permet de modifier les statuts des commits (ex: CI/CD checks)
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.9, "3.10.14", 3.11, 3.12, 3.13]
+        python-version: 3.10.14
     steps:
       - name: 🛠️ Cloner le dépôt des assets
         uses: actions/checkout@v4
