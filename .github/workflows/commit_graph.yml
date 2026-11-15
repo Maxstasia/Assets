@@ -41,9 +41,9 @@ jobs:
         python-version: ["3.10"]  # Utilise la dernière version 3.10 stable
     steps:
       - name: 🛠️ Cloner le dépôt des assets
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5        # Passage à la version 5 (recommandé)
+        uses: actions/setup-python@v6        # Passage à la version 6 (recommandé)
         with:
           python-version: ${{ matrix.python-version }}
 
